@@ -1,5 +1,7 @@
 //? Dependencies
 const express = require('express')
+const db = require('./utils/database')
+
 const quoteRouter = require('./quotes/quotes.router')
 
 //? Initial config
@@ -17,6 +19,14 @@ app.get('/', (req, res) => {
 
 //? api V1 rOUTES
 app.use('/api/v1', quoteRouter)
+
+db.authenticate()
+  .then(() => console.log('Database Autenticada correctamente'))
+  .catch((err) => console.log(err))
+
+db.sync()
+  .then(() => console.log('Database Sincronizada correctamente'))
+  .catch((err) => console.log(err))
 
 //?  start server
 app.listen(port, () => {
